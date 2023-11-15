@@ -1,17 +1,17 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board implements Ilayout, Cloneable  {
-	
-	private int board;
+public class Board implements Ilayout, Cloneable {
+
+    private int board;
     private String operacao;
-	
-	public Board(int str, String operacao) throws IllegalStateException {
-		board = str;
+
+    public Board(int str, String operacao) throws IllegalStateException {
+        board = str;
         this.operacao = operacao;
-	}
-	
-	@Override
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -30,27 +30,43 @@ public class Board implements Ilayout, Cloneable  {
         Board other = (Board) obj;
         return this.board == other.board;
     }
-	
-	public String toString() {
-		return Integer.toString(board);
-	}
 
-	@Override
-	public List<Ilayout> children() {
-		List<Ilayout> children = new ArrayList<Ilayout>(3);
-        Board irmao1 = new Board(this.board + 1,"increment");
-        Board irmao2 = new Board(this.board - 1, "decrement");
-        Board irmao3 = new Board(this.board * 2, "double");
-        children.add(irmao1);
-        children.add(irmao2);
-        children.add(irmao3);
-		return children;
-	}
-	
-	@Override
-	public boolean isGoal(Ilayout l) {
-		return l.equals(this);
-	}
+    public String toString() {
+        return Integer.toString(board);
+    }
+
+    @Override
+    public List<Ilayout> children() {
+        List<Ilayout> children = new ArrayList<Ilayout>(3);
+        children.add(new Board(this.board + 1, "increment"));
+        children.add(new Board(this.board - 1, "decrement"));
+        children.add(new Board(this.board * 2, "double"));
+        return children;
+    }
+
+    @Override
+    public double estimateCost(Ilayout goal) {
+        int goalValue = ((Board) goal).board;
+        double custo = 0;
+        if (this.board >= 0) {
+            custo = Math.min(Math.abs((goalValue / 2) - board), Math.abs(goalValue - board));
+        } else {
+            int difmin = (int) Math.min(Math.abs(goalValue/2 - board),Math.abs(goalValue/4-board));
+            custo = Math.min(Math.abs((goalValue / 4) - board),difmin);
+            //custo = Math.abs((goalValue / 4) - board);
+        }
+        return custo;
+    }
+
+    @Override
+    public boolean isGoal(Ilayout l) {
+        return l.equals(this);
+    }
+
+    @Override
+    public int getBoard() {
+        return board;
+    }
 
     @Override
     public double getG() {
@@ -65,5 +81,4 @@ public class Board implements Ilayout, Cloneable  {
                 return 0;
         }
     }
-	
 }
