@@ -17,8 +17,4 @@ public interface Ilayout {
 	@return the cost for moving from the input config to the receiver.
 	*/
 	public double getG();
-
-	int getBoard();
-
-	public double estimateCost(Ilayout goal);
 }

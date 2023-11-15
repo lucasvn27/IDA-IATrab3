@@ -12,7 +12,7 @@ public class Board implements Ilayout, Cloneable  {
 	}
 	
 	@Override
-    public int hashCode() { //nao muda
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + board;
@@ -20,7 +20,7 @@ public class Board implements Ilayout, Cloneable  {
     }
 
     @Override
-    public boolean equals(Object obj) { //nao muda
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -31,43 +31,29 @@ public class Board implements Ilayout, Cloneable  {
         return this.board == other.board;
     }
 	
-	public String toString() { //nao muda
+	public String toString() {
 		return Integer.toString(board);
 	}
 
 	@Override
-	public List<Ilayout> children() { //nao muda
+	public List<Ilayout> children() {
 		List<Ilayout> children = new ArrayList<Ilayout>(3);
-        children.add(new Board(this.board + 1,"increment"));
-        children.add(new Board(this.board - 1, "decrement"));
-        children.add(new Board(this.board * 2, "double"));
+        Board irmao1 = new Board(this.board + 1,"increment");
+        Board irmao2 = new Board(this.board - 1, "decrement");
+        Board irmao3 = new Board(this.board * 2, "double");
+        children.add(irmao1);
+        children.add(irmao2);
+        children.add(irmao3);
 		return children;
 	}
-
-    @Override
-    public double estimateCost(Ilayout goal) { //a fazer bem as contas
-        int goalValue = ((Board)goal).board;
-        int custo = 0;
-        if(this.board >= 0){
-            custo = Math.abs((goalValue/2) - board);
-        }else{
-            custo = Math.abs((goalValue/4) - board);
-        }
-        return custo;
-    }
 	
 	@Override
-	public boolean isGoal(Ilayout l) { //nao muda
+	public boolean isGoal(Ilayout l) {
 		return l.equals(this);
 	}
 
     @Override
-    public int getBoard() {
-        return board;
-    }
-
-    @Override
-    public double getG() { //nao muda
+    public double getG() {
         switch (operacao) {
             case "increment":
                 return 1;
@@ -79,4 +65,5 @@ public class Board implements Ilayout, Cloneable  {
                 return 0;
         }
     }
+	
 }
