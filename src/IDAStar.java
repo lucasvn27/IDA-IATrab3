@@ -37,7 +37,7 @@ public class IDAStar {
     }
 
     private State actual;
-    private Stack<State> path; // Pilha para rastrear o caminho
+    private Stack<State> path; 
 
     private double search(State node, double g, double bound, Ilayout goal) {
         double f = g + node.h;
@@ -46,18 +46,17 @@ public class IDAStar {
         }
         if (node.layout.isGoal(goal)) {
             actual = node;
-            return -1; // FOUND
+            return -1; 
         }
 
         double min = Double.POSITIVE_INFINITY;
         List<State> sucs = sucessores(node, goal);
         for (State successor : sucs) {
-            // Não é necessário verificar abertos ou fechados, já que utilizaremos a pilha para rastrear o caminho
-            path.push(successor); // Adiciona o sucessor à pilha
+            path.push(successor);
             double t = search(successor, g + successor.layout.getG(), bound, goal);
-            path.pop(); // Remove o sucessor da pilha
+            path.pop();
             if (t == -1) {
-                return -1; // FOUND
+                return -1;
             }
             if (t < min) {
                 min = t;
@@ -91,7 +90,7 @@ public class IDAStar {
     public Iterator<State> solve(Ilayout valorInicial, Ilayout goal) {
         State inicial = new State(valorInicial, null, goal);
         path = new Stack<>();
-        path.push(inicial); // Adiciona o nó inicial à pilha
+        path.push(inicial); 
         double bound = inicial.getF();
         while (true) {
             double t = search(inicial, 0, bound, goal);
@@ -99,11 +98,11 @@ public class IDAStar {
                 return buildPath(actual);
             }
             if (t == Double.POSITIVE_INFINITY) {
-                return null; // NOT_FOUND
+                return null;
             }
             bound = t;
-            path.clear(); // Limpar a pilha para a próxima iteração
-            path.push(inicial); // Adiciona o nó inicial à pilha novamente
+            path.clear();
+            path.push(inicial);
         }
     }
 }
