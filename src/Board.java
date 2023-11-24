@@ -51,7 +51,7 @@ public class Board implements Ilayout, Cloneable {
         if (this.board >= 0) {
             custo = Math.min(Math.abs((goalValue / 2) - board), Math.abs(goalValue - board));
         } else {
-            int difmin = (int) Math.min(Math.abs(goalValue/2 - board),Math.abs(goalValue/4-board));
+            int difmin = Math.min(Math.abs(goalValue/2 - board),Math.abs(goalValue/4-board));
             custo = Math.min(Math.abs(goalValue - board),difmin);
         }
         return custo;

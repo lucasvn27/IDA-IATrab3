@@ -39,7 +39,10 @@ public class IDAStar {
     }
 
     private State actual;
-    private Stack<State> path; 
+    private Stack<State> path;
+    private int generatedNodesCount;
+    private int expandedNodesCount;
+    private int maxG = 0;
 
     final private List<State> sucessores(State n, Ilayout goal) {
         List<State> sucs = new ArrayList<>();
@@ -47,6 +50,9 @@ public class IDAStar {
         for (Ilayout e : children) {
             if (n.father == null || !e.equals(n.father.layout)) {
                 State nn = new State(e, n, goal);
+                if(nn.g > maxG){
+                    maxG = (int) nn.g;
+                }
                 sucs.add(nn);
             }
         }
@@ -85,6 +91,8 @@ public class IDAStar {
             }
     
             List<State> sucs = sucessores(node, goal);
+            expandedNodesCount++;
+            generatedNodesCount += sucs.size();
             for (State successor : sucs) {
                 stack.push(successor);
             }
@@ -110,5 +118,17 @@ public class IDAStar {
             path.clear();
             path.push(inicial);
         }
+    }
+
+    public int getGeneratedNodesCount() {
+        return generatedNodesCount;
+    }
+
+    public int getExpandedNodesCount() {
+        return expandedNodesCount;
+    }
+
+    public int getMaxG() {
+        return maxG;
     }
 }
